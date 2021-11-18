@@ -1,1 +1,0 @@
-sdcard_size:1920672
