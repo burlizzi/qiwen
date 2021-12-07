@@ -116,6 +116,28 @@ static void *check_fps_switch(void *arg)
 }
 
 
+int ak_my_drv_ir_get_input_level(int curstate)
+{
+	char result[4];
+	int day_night_level = 0;
+
+	FILE *fpa = fopen("/sys/kernel/ain/ain1", "r");
+	if(!fpa) {
+		ak_print_error_ex("fopen /sys/kernel/ain/ain1 failed, %s\n", strerror(errno));
+		return -1;
+	}
+	if (fpa) {
+		fread(result, 1, 4, fpa);
+		fclose(fpa);
+	}
+	int rf_feed_level = atoi(result);
+	day_night_level = rf_feed_level>1600;
+
+	return day_night_level;
+}
+
+
+
 /* according to ir value to switch ircut and video */
 static void *check_ir_switch(void *arg)
 {
@@ -128,10 +150,10 @@ static void *check_ir_switch(void *arg)
 	/* get ir state and switch day-night */
 	while (ja_ir.ir_run_flag) {
 		if (ja_ir.ir_switch_enable) {
-			ir_val = ak_drv_ir_get_input_level();
+			ir_val = ak_my_drv_ir_get_input_level(ja_ir.cur_state);
+	        ak_print_normal_ex("c prev_state=%d, ir_val=%d\n",ja_ir.cur_state, ir_val);
 			if (ir_val != -1 && ja_ir.cur_state != ir_val) {
-		        ak_print_normal_ex("prev_state=%d, ir_val=%d\n",
-			        ja_ir.cur_state, ir_val);
+		        ak_print_normal_ex("prev_state=%d, ir_val=%d\n",ja_ir.cur_state, ir_val);
 				ja_media_set_video_day_night(ja_ir.vi_handle, ir_val);
 			}
 		}
