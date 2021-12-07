@@ -6,6 +6,7 @@ dir_y += dvr
 dir_y += rtsp
 dir_y += net
 dir_y += alarm
+dir_y += onvif
 
 all:
 	@for i in $(dir_y); \
