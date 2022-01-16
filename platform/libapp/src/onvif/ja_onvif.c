@@ -951,6 +951,12 @@ static void _nvp_env_init(lpNVP_ENV env)
 		ak_print_error_ex("ak_drv_ptz_open failed!\n");
 		return;
 	}
+ 	int DAT_0018a9ac = 300;
+    	int DAT_0018a9b0 = 300;
+ 	int local_24;
+	ak_drv_ptz_turn_reset(&local_24);
+	ak_drv_ptz_set_turn_speed(3,DAT_0018a9ac);
+        ak_drv_ptz_set_turn_speed(1,DAT_0018a9b0);
 
 	ak_drv_ptz_check_self(PTZ_FEEDBACK_PIN_EXIST);
  	ak_drv_ptz_turn_steps_new(PTZ_TURN_RIGHT,-300);
