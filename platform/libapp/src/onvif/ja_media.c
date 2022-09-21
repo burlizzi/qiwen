@@ -1613,6 +1613,8 @@ int ja_media_init_ir_switch(void)
 			NULL, 100 *1024, -1);
 }
 
+int isNight;
+
 /*
  * ja_media_set_video_day_night - set day night mode
  * vi_handle[IN]: opened vi handle
@@ -1621,19 +1623,22 @@ int ja_media_init_ir_switch(void)
  */
 int ja_media_set_video_day_night(void *vi_handle, int ir_val)
 {	
+	
 	if (!vi_handle) {
 		return AK_FAILED;
 	}
 
 	int ret = AK_FAILED;
 	if (ir_val) {
-		ak_print_normal_ex("now set to day\n");
+		ak_print_normal_ex("************************************************************************now set to day\n");
 		ak_drv_ir_set_ircut(!ir_val);
 		ret = ak_vi_switch_mode(vi_handle, VI_MODE_DAY);
+		isNight=0;
 		ak_drv_irled_set_working_stat(0);
 	} else {
-		ak_print_normal_ex("now set to night\n");
-		ak_drv_irled_set_working_stat(1);
+		ak_print_normal_ex("------------------------------------------------------------------now set to night\n");
+		isNight=1;
+		ak_drv_irled_set_working_stat(0);
 		ret = ak_vi_switch_mode(vi_handle, VI_MODE_NIGHT);
 		ak_drv_ir_set_ircut(!ir_val);
 	}

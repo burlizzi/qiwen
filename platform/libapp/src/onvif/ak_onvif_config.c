@@ -249,7 +249,7 @@ static void init_onvif_venc_param(struct onvif_venc_config *video)
 	if (AK_SUCCESS == ak_ini_get_item_value(onvif_config.handle, "video", "main_enc_type", value))
     	video->main_enc_type = atoi(value);
 	else
-		video->main_enc_type = 2;	// 1->264, 2->265, 3->264+, 4->265+
+		video->main_enc_type = 1;	// 1->264, 2->265, 3->264+, 4->265+
 	
 	if (AK_SUCCESS == ak_ini_get_item_value(onvif_config.handle, "video", "sub_enc_type", value))
     	video->sub_enc_type = atoi(value);

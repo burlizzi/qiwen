@@ -146,11 +146,15 @@ static int md_area_judge(struct vpss_md_info *md)
 			}
 				
 			if((cnt > v_num_ex * h_multiple * 3 / 4) 
-				|| (cnt_right > v_num_ex * h_multiple * 3 / 4)){
+				|| (cnt_right > v_num_ex * h_multiple * 3 / 4))
+				{
 				*(md_result.area + i * md_ctrl.h_num + j) = 1;
 				md_trigged = 1;
+		//		ak_print_normal("O ");
 			}
+			//else ak_print_normal(". ");		
 		}
+		//ak_print_normal("\n");	
 	}
 #endif
 
@@ -175,16 +179,40 @@ static int md_global_judge(struct vpss_md_info *md)
 {
 	int i, j;
 	int md_cnt = 0;
-
+	int which = 0;
+	int max=0;
+	//ak_print_normal("reserved=%p\n",md_result.reserved);	
+	
+	//static char data[VPSS_MD_DIMENSION_H_MAX*(VPSS_MD_DIMENSION_H_MAX+1)+2];
+	//memset(data,'/',sizeof(data));
 	for(i = 0; i < md_ctrl.v_size_max; i++) {
 		for(j = 0; j < VPSS_MD_DIMENSION_H_MAX; j++) {
 			if(md->stat[i][j] > BASE_DIFF)
+			{
+				//char level=(md->stat[i][j] / BASE_DIFF)+'0';
+				//data[j+i*(VPSS_MD_DIMENSION_H_MAX+1)]=level;
+				md_result.reserved[j+i*VPSS_MD_DIMENSION_H_MAX]=(md->stat[i][j] / BASE_DIFF);
 				md_cnt++;
+			}
+			//else data[j+i*(VPSS_MD_DIMENSION_H_MAX+1)]='.';
+
+			if(md->stat[i][j] > max)
+			{
+				max = md->stat[i][j];
+				which=j+i*VPSS_MD_DIMENSION_H_MAX;
+			}
+
+
 		}
+		//data[(i+1)*(VPSS_MD_DIMENSION_H_MAX+1)-1]='\n';
 	}
+	
+	//data[md_ctrl.v_size_max*(VPSS_MD_DIMENSION_H_MAX+1)+1]=0;
+	//ak_print_normal(data);	
+	//ak_print_normal("\n");	
 
 	if (md_cnt > (101 - md_ctrl.global_sens )){
-		return 1;
+		return which;
 	}
 
 	return 0;
@@ -206,8 +234,10 @@ static int md_check(struct hw_md_ctrl *md_ctrl)
 		return 0;
 	}
 	if(md_ctrl->area_md_flag){
+		//ak_print_normal_ex(MPI_MD "### md_area_judge ###\n");
 		ret = md_area_judge(&md);
 	}else{
+		//ak_print_normal_ex(MPI_MD "### md_global_judge ###\n");
 		ret = md_global_judge(&md);
 	}
 
@@ -224,9 +254,19 @@ int get_md_result( int *md_sec, char *area_md)
 {
 	ak_thread_mutex_lock(&md_result.lock);
 	/* return area md result */
-	if(md_ctrl.area_md_flag && area_md){
-		memcpy(area_md,md_result.reserved,md_ctrl.h_num * md_ctrl.v_num);
-		memset(md_result.reserved, 0, md_ctrl.h_num * md_ctrl.v_num);
+	if (area_md)
+	{
+		if(md_ctrl.area_md_flag){
+			memcpy(area_md,md_result.reserved,md_ctrl.h_num * md_ctrl.v_num);
+			memset(md_result.reserved, 0, md_ctrl.h_num * md_ctrl.v_num);
+		}
+		else
+		{
+			memcpy(area_md,md_result.reserved,32*16);
+			memset(md_result.reserved, 0, 32*16);
+		}
+
+
 	}
 
 	*md_sec = ak_date_to_seconds(&md_result.detect_time);
@@ -260,9 +300,10 @@ static void *md_thread(void *arg)
 				move_count = 0;
 			}
 		}while(MD_THREAD_STOP == md_ctrl.thread_stat);
-		
-		if(md_check(&md_ctrl)){
+		int moved=md_check(&md_ctrl);
+		if(moved){
 			++move_count;
+			
 			if(2 == move_count){
 				move_count--;
 				if(ak_get_localdate(&md_result.detect_time)){
@@ -326,6 +367,7 @@ int ak_md_init(void *vi_handle)
 	md_ctrl.global_sens = DEFAULT_DIFF * 100 / MAX_DIFF;
 	md_ctrl.md_fps = 10;
 	md_ctrl.area_diff = NULL;
+	md_ctrl.area_md_flag = 0;
 	md_result.area = NULL;
 	md_result.reserved = NULL;
 	ak_thread_mutex_init(&md_result.lock, NULL);
@@ -398,6 +440,8 @@ int ak_md_get_fps( int *fps)
  */
 int ak_md_set_global_sensitivity ( int sensitivity)
 {
+	md_result.reserved = (char *)calloc(1, 32 * 24);
+
 	ak_print_normal_ex(MPI_MD "sensitivity:%d \n",sensitivity);
 	if( 0 == md_init_flag) {
 		set_error_no(ERROR_TYPE_NOT_INIT);
@@ -598,6 +642,7 @@ int ak_md_get_result(int *md_sec, char *area_md, int msec)
 	}
 	/*md have been triggered*/
 	if (md_result.global) {
+		ak_print_error_ex(MPI_MD "md have been triggered!!\n");
 		return get_md_result(md_sec, area_md);
 	}
 	if (0 == msec)
@@ -606,6 +651,7 @@ int ak_md_get_result(int *md_sec, char *area_md, int msec)
 		while (msec > 0) {
 			ak_sleep_ms(20);
 			if (md_result.global) {
+				ak_print_error_ex(MPI_MD "md have been triggered!!\n");
 				return get_md_result(md_sec, area_md);
 			}
 			msec -= 20;
@@ -614,11 +660,13 @@ int ak_md_get_result(int *md_sec, char *area_md, int msec)
 		ret = ak_thread_sem_wait(&md_ctrl.send_sem);
 	}
 
+
 	/* sem_wait exit normally, md is triggered*/
 	if ((0 == ret) && (md_result.global)) {
+		ak_print_error_ex(MPI_MD "md, md!!\n");
 		return get_md_result(md_sec, area_md);
 	}
-
+	ak_print_error_ex(MPI_MD "niente md\n");
 	/*no md triggered*/
 	return 0;
 }

@@ -98,6 +98,20 @@ int ak_drv_irled_get_working_stat(void)
  */
 int ak_drv_irled_set_working_stat(int working)
 {
+	static int last=0;
+	switch (working)
+	{
+	case -1:
+		working=last;
+		break;
+	case -2:
+		working=0;
+		break;
+	default:
+		last=working;
+		break;
+	}
+	
 	int level;
 	char cmd[STRING_LEN];
 	char result[STRING_LEN];

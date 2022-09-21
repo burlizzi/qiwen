@@ -2,7 +2,7 @@
 #define _JA_MD_H_
 #include "n1_def.h"
 
-typedef void P_MD_ALARM_CALLBACK(void);
+typedef void P_MD_ALARM_CALLBACK(char*);
 
 /**
  * ja_md_load - load md struct from file

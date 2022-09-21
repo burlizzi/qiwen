@@ -254,13 +254,14 @@ static int match_sensor(const char *isp_cfg_path)
 	if (strstr(sensor_if, "mipi1"))
 		strcpy(tmpstr, "mipi_1");
 	else if (strstr(sensor_if, "mipi2"))
-		strcpy(tmpstr, "mipi_2");
+		strcpy(tmpstr, "mipi2");
 	else
 		dvp_flag = 1;
 
 	ak_print_normal_ex("sensor_if:%s\n", sensor_if);
 
 	while (NULL != (dir_ent = readdir(dir))) {
+		printf("try:%s%s\n", isp_cfg_path, dir_ent->d_name);
 		if (!dir_ent->d_name)
 			continue;
 

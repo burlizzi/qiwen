@@ -546,6 +546,7 @@ static int _get_video_encode_option(lpNVP_VENC_OPTIONS venc, int id)
 static int _get_video_encode(lpNVP_VENC_CONFIG venc, int id)
 {
 	struct onvif_camera_config *camera = onvif_config_get_camera();
+	struct onvif_venc_config* video = onvif_config_get_venc_param();
 
 	if (0 == id)
 	{
@@ -554,7 +555,7 @@ static int _get_video_encode(lpNVP_VENC_CONFIG venc, int id)
 		venc->enc_bps = g_video_set.mainbps;
 		venc->enc_fps = g_video_set.mainfps;
 		venc->quant_mode = g_video_set.main_videomode + NVP_QUANT_CBR;
-		venc->enc_type = NVP_VENC_H265;
+		venc->enc_type = video->main_enc_type==1?NVP_VENC_H264:NVP_VENC_H265;
 	}
 	else if (1 == id)
 	{
@@ -563,7 +564,7 @@ static int _get_video_encode(lpNVP_VENC_CONFIG venc, int id)
 		venc->enc_bps = g_video_set.subbps;
 		venc->enc_fps = g_video_set.subfps;
 		venc->quant_mode = g_video_set.sub_videomode + NVP_QUANT_CBR;
-		venc->enc_type = NVP_VENC_H265;
+		venc->enc_type = video->sub_enc_type==1?NVP_VENC_H264:NVP_VENC_H265;
 	}
 
 	venc->enc_gov = 25;
@@ -845,6 +846,9 @@ static void _cmd_system_boot(long l, void *r)
 	ak_cmd_exec("sleep 2; reboot", NULL, 0);
 }
 
+
+extern unsigned int check_time;
+
 /**
  * _cmd_ptz - ptz cmd execute, if not support ptz, do nothing
  * @cmd[IN]: cmd
@@ -886,18 +890,24 @@ static int _cmd_ptz(lpNVP_CMD cmd, const char *module, int keyid)
 
 	static unsigned char x=0;
 	static unsigned char y=0;
+
+
 	switch(cmd->ptz.cmd)
 	{
 		case NVP_PTZ_CMD_LEFT:
+			check_time=time(0);
 			ak_drv_ptz_turn_steps_new(PTZ_TURN_LEFT,2800);
 			break;
 		case NVP_PTZ_CMD_RIGHT:
+			check_time=time(0);
 			 ak_drv_ptz_turn_steps_new(PTZ_TURN_RIGHT,-2800);
 			break;
 		case NVP_PTZ_CMD_UP:
+			check_time=time(0);
 			 ak_drv_ptz_turn_steps_new(PTZ_TURN_UP,-1800);
 			break;
 		case NVP_PTZ_CMD_DOWN:
+			check_time=time(0);
 			 ak_drv_ptz_turn_steps_new(PTZ_TURN_DOWN,1800);
 			break;
 		case NVP_PTZ_CMD_ZOOM_IN:
@@ -953,8 +963,8 @@ static void _nvp_env_init(lpNVP_ENV env)
 	}
 
 	ak_drv_ptz_check_self(PTZ_FEEDBACK_PIN_EXIST);
- 	ak_drv_ptz_turn_steps_new(PTZ_TURN_RIGHT,-300);
-	ak_drv_ptz_turn_steps_new(PTZ_TURN_UP,-300);
+ 	//ak_drv_ptz_turn_steps_new(PTZ_TURN_RIGHT,-300);
+	//ak_drv_ptz_turn_steps_new(PTZ_TURN_UP,-300);
 	
 	
 

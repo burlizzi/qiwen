@@ -6,8 +6,13 @@
 #include "ja_net.h"
 #include "ja_type.h"
 #include "ak_net.h"
+#include "ak_drv_ir.h"
 #include "n1.h"
 #include "n1_device.h"
+#include "ak_alarm.h"
+
+#include "ak_drv_ptz.h"
+
 
 #define CONFIG_JAONVIF_SUPPORT
 #ifdef  CONFIG_JAONVIF_SUPPORT
@@ -25,7 +30,7 @@
 #include "ak_onvif_config.h"
 
 /**
- * ¼àÌý¶Ë¿Ú¡£
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ë¿Ú¡ï¿½
  */
 #define LISTEN_PORT 		(80)
 
@@ -86,18 +91,46 @@ int onvif_wsdd_event_hook(char *type, char *xaddr, char *scopes ,int event, void
 }
 #endif
 
+unsigned int check_time = 0;
+
 /**
  * md_alarm - md alarm, callback function for ja md module
  * return: void
  */
-void md_alarm(void)
+
+void md_alarm(char* data)
 {
-    static unsigned int check_time = 0;
     unsigned int cur_time = time(0);
     NK_N1Notification Notif;
-
-    if (cur_time - check_time > 5)
+	unsigned char max=0;
+	int x=16;
+	int y=8;
+	ak_print_normal_ex("[%s] alarm data=%p!\n", __func__,data);
+    if (cur_time - check_time > 2)
     {
+		for(int i = 0; i < 16; i++) {
+			//char s[33];s[32]=0;
+			for(int j = 0; j < 32; j++) {
+				if(data[j+i*32] > max)
+				{
+					max=data[j+i*32];
+					x=j-16;
+					y=i-8;
+					ak_print_normal_ex("x=%d,y=%d\n",j,i);
+				}
+			//	s[j]='0'+data[j+i*32];
+			}
+			//printf(s);
+			//printf("\n");
+		}
+
+		if (max > 2000)
+		{
+	        printf("moving to %d %d!\n",x,y);
+
+			ak_drv_ptz_turn_steps_new(PTZ_TURN_DOWN,y*30);
+			ak_drv_ptz_turn_steps_new(x>0?PTZ_TURN_LEFT:PTZ_TURN_RIGHT,-x*30);
+		}
         ak_print_normal_ex("[%s] pass the moving notify!\n", __func__);
         check_time = cur_time;
         Notif.type = NK_N1_NOTF_MOTION_DETECTED;
@@ -291,6 +324,14 @@ const char* ak_onvif_get_version(void)
 	return onvif_version;
 }
 
+
+void dana_others_send_alarm(int type,int level,int start_time, int time_len)
+{
+	ak_print_notice_ex("alarm_type=%d, alarm_level=%d, start_time=%d, time_len=%d  \n",
+		type, level, start_time, time_len);
+
+}
+
 /**
  * ak_onvif_init - init onvif
  * @vi[IN]: opened vi handle
@@ -318,6 +359,8 @@ int ak_onvif_init(void *vi, void *ai)
 	
 	init_osd(vi);
 
+	ak_vi_set_flip_mirror(vi, 1, 1);
+
 	/* onvif and minirtsp */
 	init_onvif_rtsp(LISTEN_PORT);
 
@@ -327,6 +370,20 @@ int ak_onvif_init(void *vi, void *ai)
 	ja_md_init(vi, md_alarm);
 
 	ja_net_set_ip_adapt_tmp_enable(AK_TRUE);
+	
+
+	struct ak_ir_threshold day_thr;
+	struct ak_ir_threshold night_thr;
+	day_thr.min=1500;
+	day_thr.max=3000;
+	night_thr.min=0;
+	night_thr.max=1600;
+	ak_drv_ir_set_threshold(&day_thr,&night_thr);
+
+
+	//ak_alarm_init(SYS_DETECT_MOVE_ALARM,vi, dana_others_send_alarm, NULL);
+	//ak_alarm_init(SYS_DETECT_VOICE_ALARM,ai, dana_others_send_alarm, NULL);
+
 
 	return AK_SUCCESS;
 }
