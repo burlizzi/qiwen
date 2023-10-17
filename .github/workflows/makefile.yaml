@@ -1,0 +1,26 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  docker:
+    name: ${{matrix.vector.image}}
+    runs-on: ghcr.io/burlizzi/anyka_build
+    strategy:
+      fail-fast: false
+      matrix:
+        vector:
+        - image: ghcr.io/burlizzi/anyka_build
+    container: ${{matrix.vector.image}}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+              apt update && apt install -y zlibg1:i386
+      - run: |
+          cd platform && make
+          
+    
