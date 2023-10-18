@@ -9,7 +9,7 @@ on:
 jobs:
   docker:
     name: ${{matrix.vector.image}}
-    runs-on: ghcr.io/burlizzi/anyka_build
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
