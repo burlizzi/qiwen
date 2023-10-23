@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <fcntl.h>
+#include <memory.h>
 #include <sys/ioctl.h>
 
 #include "internal_error.h"
@@ -74,15 +75,6 @@
 #define MOTOR_CRUISE		_IOW(AK_MOTOR_IOC_MAGIC, 0x62, int)
 #define MOTOR_BOUNDARY		_IOW(AK_MOTOR_IOC_MAGIC, 0x63, int)
 
-/*
- * motor_status:
- * @MOTOR_IS_STOP:		motor is stoped now
- * @MOTOR_IS_RUNNING:	motor is running now
- * */
-enum motor_status {
-	MOTOR_IS_STOP = 0,
-	MOTOR_IS_RUNNING,
-};
 
 /*
  * struct motor_parm - motor parameters
@@ -99,33 +91,6 @@ struct motor_parm {
 	int total_steps;
 	int boundary_steps;
 };
-
-
-/*
- * motor_message - message
- * @status:				motor working status
- * @pos:				the current position
- * @speed_step:			speed of step(hz)
- * @speed_angle:		speed of angle
- * @steps_one_circel:	steps one circel
- * @total_steps:		steps motor can run
- * @boundary_steps:		reserved boundary steps
- * @attach_timer:		attach to hardware timer
- */
-struct motor_message {
-	enum motor_status status;
-	int pos;
-	int speed_step;
-	int speed_angle;
-	int steps_one_circle;
-	int total_steps;
-	int boundary_steps;
-	int attach_timer;
-};
-
-
-
-
 
 
 /* notify structure */
@@ -197,7 +162,20 @@ static struct ak_motor akmotor[] =
 		.fulldst_step = 2048,
 		.cycle_step = 2048,
 	},
+	{
+		.fd = -1,
+		.mt_status = PTZ_WAIT_INIT,
+		.step_degree = 16,
+		.fulldst_step = 2048,
+		.cycle_step = 2048,
 
+		.runto_speed = MAX_SPEED,
+		.hit_speed = MAX_SPEED,
+		.step_speed = 15,
+		.fulldst_step = 2048,
+		.cycle_step = 2048,
+	},
+/* original
 	/// 垂直电机。
 	{
 		.fd = -1,
@@ -208,6 +186,7 @@ static struct ak_motor akmotor[] =
 		.hit_speed = MAX_SPEED,
 		.step_speed = 15,
 	},
+*/	
 };
 
 pthread_t motor_thread[AK_MOTOR_DEV_NUM];
@@ -247,6 +226,33 @@ static void motor_revise_param(struct ak_motor *motor)
 	motor->nMax_hit = motor->fulldst_step * 360 /  motor->cycle_step;
 }
 
+static int motor_turn1(struct ak_motor *motor, int steps, int is_cw)
+{
+	if(motor->fd < 0)
+		return -1;
+
+	int ret;
+	//int cmd = is_cw ? AK_MOTOR_TURN_CLKWISE:AK_MOTOR_TURN_ANTICLKWISE;
+	int cmd = MOTOR_MOVE_NOLIMIT;
+	steps=is_cw ? 1:-1;
+
+	ret = ioctl(motor->fd, cmd, &steps);
+
+		ak_print_error_ex("%s fd:%d is_cw:%d, steps:%d, ret:%d.\n",
+		    __func__, motor->fd, is_cw,steps, ret);
+
+
+	if(ret) {
+		set_error_no(ERROR_TYPE_DEV_CTRL_FAILED);
+		ak_print_error_ex("%s fail. is_cw:%d, steps:%d, ret:%d.\n",
+		    __func__, steps, is_cw, ret);
+	}
+
+	return ret;
+}
+
+
+
 static int motor_turn(struct ak_motor *motor, int steps, int is_cw)
 {
 	if(motor->fd < 0)
@@ -254,8 +260,15 @@ static int motor_turn(struct ak_motor *motor, int steps, int is_cw)
 
 	int ret;
 	int cmd = is_cw ? AK_MOTOR_TURN_CLKWISE:AK_MOTOR_TURN_ANTICLKWISE;
+	//int cmd = MOTOR_MOVE_NOLIMIT;
+	//steps=is_cw ? 1:-1;
 
 	ret = ioctl(motor->fd, cmd, &steps);
+
+		ak_print_error_ex("%s fd:%d is_cw:%d, steps:%d, ret:%d.\n",
+		    __func__, motor->fd, is_cw,steps, ret);
+
+
 	if(ret) {
 		set_error_no(ERROR_TYPE_DEV_CTRL_FAILED);
 		ak_print_error_ex("%s fail. is_cw:%d, steps:%d, ret:%d.\n",
@@ -313,6 +326,8 @@ static int motor_turn_dg(struct ak_motor *motor, int degree, int is_cw)
 	if(motor->fd < 0)
 		return -1;
 
+	ak_print_error_ex("ci sono\n");
+
 	int res_angle = degree;
 	int steps;
 	int ret;
@@ -326,6 +341,8 @@ static int motor_turn_dg(struct ak_motor *motor, int degree, int is_cw)
 	/// Try to Trun to the Max Rate.
 	steps = degree2step (motor, degree);
 
+	ak_print_error_ex("ci sono %d,%d\n",degree,is_cw);
+	ret = motor_turn1(motor, steps, is_cw);
 	ret = motor_turn(motor, steps, is_cw);
 	if(ret) {
 		ak_print_error_ex(" fail. is_cw:%d, degree:%d, ret:%d.\n",
@@ -577,8 +594,8 @@ static void* motor_turn_thread(void* data)
 		ak_thread_sem_wait(&motor->ctrl_sem);
 		if( 0 == motor->run_flag )
 			break;
-		ak_print_debug_ex("clkwise=%d, angle=%d\n",
-		    motor->cmd_data.clkwise,motor->cmd_data.dg);
+		ak_print_error_ex("clkwise=%d, angle=%d speed:%d\n",
+		    motor->cmd_data.clkwise,motor->cmd_data.dg,motor->runto_speed);
         motor->mt_status = PTZ_SYS_WAIT;
 
 		/*
@@ -594,6 +611,7 @@ static void* motor_turn_thread(void* data)
 
 			motor_wait_hit_stop(motor, &rg, motor->runto_speed);
 		}
+		else ak_print_error_ex("errore\n");
 
 		motor->mt_status = PTZ_INIT_OK;
 	}
@@ -755,6 +773,30 @@ int ak_drv_ptz_open(void)
 }
 
 
+int ak_drv_ptz_set_turn_speed(enum ptz_device motor_no, int speed)
+{
+	ak_print_error_ex("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        set speed motor %d to %d\n",motor_no,speed);
+	return 0;
+}
+
+int ak_drv_ptz_get_turn_pos(enum ptz_device motor_no, int speed)
+{
+	ak_print_error_ex("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        ak_drv_ptz_get_turn_pos %d to %d\n",motor_no,speed);
+	return 0;
+}
+
+
+int ak_drv_ptz_turn_steps_new(enum ptz_device motor_no, int speed)
+{
+	ak_print_error_ex("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        %s %d to %d\n",__func__,motor_no,speed);
+	return 0;
+}
+
+int ak_drv_ptz_turn_reset()
+{
+	ak_print_error_ex("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        ak_drv_ptz_turn_reset\n");
+	return 0;
+}
 
 
 
@@ -811,6 +853,28 @@ int ak_drv_ptz_get_step_pos (enum ptz_device motor_no) {
 
 
 	return Msg.pos;
+}
+
+
+
+
+struct motor_message ak_drv_ptz_get_step_status (enum ptz_device motor_no) {
+
+	int fd = get_motor_fd (motor_no);
+	struct motor_message Msg;
+
+	if (fd < 0) {
+		memset(&Msg,0,sizeof(Msg));
+		return Msg;
+	}
+
+	if (ioctl (fd, MOTOR_GET_STATUS, &Msg) != 0) {
+		memset(&Msg,0,sizeof(Msg));
+		return Msg;
+	}
+
+
+	return Msg;
 }
 
 
@@ -943,6 +1007,7 @@ int ak_drv_ptz_turn(enum ptz_turn_direction direct, int degree)
 		break;
   	}
 
+	ak_print_error_ex("fin qui ci siamo.\n");
 	if(motor != NULL && motor->mt_status != PTZ_INIT_OK){
 		//set_error_no(ERROR_TYPE_NOT_INIT);
 		ak_print_notice_ex("moter not idle.status:%d\n", motor->mt_status );

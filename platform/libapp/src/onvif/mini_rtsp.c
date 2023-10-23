@@ -25,6 +25,7 @@
 #include "ak_osd_ex.h"
 #include "ja_osd.h"
 #include "ak_onvif_config.h"
+#include "ak_drv_irled.h"
 
 #define USR_NAME_SIZE_MAX		(64)
 #define USR_PASSWORD_SIZE_MAX	(64)
@@ -204,6 +205,8 @@ mini_video_end:
 	return ret;
 }
 
+extern int isNight;
+int clients=0;
 /**
  * _stream_init - make minirtsp connect, support multi-connection
  * @s[IN]: minirtsp param  struct
@@ -212,6 +215,8 @@ mini_video_end:
  */
 static int _stream_init(lpMINIRTSP_STREAM s, const char *name)
 {
+	clients++;
+	ak_drv_irled_set_working_stat(0);
 	MINIRTSP_USR_STRUCT *ctx = NULL;
 	int i = 0;
 	int stream_id = 0;
@@ -442,6 +447,9 @@ static int _stream_next(lpMINIRTSP_STREAM s)
  */
 static int _stream_destroy(lpMINIRTSP_STREAM s)
 {
+	clients--;
+	if (!clients)
+		ak_drv_irled_set_working_stat(0);
 	MINIRTSP_USR_STRUCT *ctx = s->param;
 	int i = 0;
 

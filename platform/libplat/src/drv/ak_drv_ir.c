@@ -10,7 +10,7 @@
 
 #define STRING_LEN	            128
 #define IR_FEED_GPIO_FILE_NAME  "/sys/user-gpio/gpio-rf_feed"
-#define IR_FEED_AIN_FILE_NAME   "/sys/kernel/ain/ain0"
+#define IR_FEED_AIN_FILE_NAME   "/sys/kernel/ain/ain1"
 #define IRCUT_A_FILE_NAME       "/sys/user-gpio/gpio-ircut_a"
 #define IRCUT_B_FILE_NAME       "/sys/user-gpio/gpio-ircut_b"
 
@@ -150,11 +150,11 @@ int ak_drv_ir_get_input_level(void)
 			   	strerror(errno));
 			return -1;
 		}
-
 		if (fpa) {
 			fread(result, 1, 4, fpa);
 			fclose(fpa);
 		}
+		ak_print_error_ex("read %s from %s.\n",result,IR_FEED_AIN_FILE_NAME);
 
 		int rf_feed_level = atoi(result);
 		day_night_level = get_ain_threshold(rf_feed_level);

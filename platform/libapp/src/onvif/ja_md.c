@@ -4,7 +4,7 @@
 #include "ja_md.h"
 #include "ak_md.h"
 #include "ak_onvif_config.h"
-
+#include "ak_vpss.h"
 
 #define MD_H_NUM			8
 #define MD_V_NUM			8
@@ -43,7 +43,7 @@ int ja_md_load(struct NK_MotionDetection* pmotion)
 
 	fd = fopen (MD_FILE_PATH, "rb");
 	if (NULL == fd) {
-		ak_print_error_ex("fd open failed!\n");
+		ak_print_error_ex("fd open failed!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 		ak_thread_mutex_unlock(&md_ctrl.filelock);
 		return ret;
 	}
@@ -166,8 +166,8 @@ void ja_md_set_move_ratio(struct NK_MotionDetection* pmotion)
 	}
 	
 	/*
-	 *°Ñ32*24µÄÇøÓò×ª»»³É8*8µÄ£¬12Ð¡¿éºÏ²¢Îª1´ó¿é£¬Èô¸Ã´ó¿éµÄ12Ð¡¿éÖÐÓÐ6¸ö¼°
-	 *ÒÔÉÏ±»Ñ¡£¬ÔòÈÏÎª¸Ã´ó¿é±»Ñ¡¡£
+	 *ï¿½ï¿½32*24ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½8*8ï¿½Ä£ï¿½12Ð¡ï¿½ï¿½Ï²ï¿½Îª1ï¿½ï¿½é£¬ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½12Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½6ï¿½ï¿½ï¿½ï¿½
+	 *ï¿½ï¿½ï¿½Ï±ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Ã´ï¿½é±»Ñ¡ï¿½ï¿½
 	 */
 	for(i = 0; i < MD_H_NUM * MD_V_NUM; i++) {
 		cnt = 0;    	
@@ -198,7 +198,8 @@ void ja_md_set_move_ratio(struct NK_MotionDetection* pmotion)
 		}	
 	}
 
-	ak_md_set_area_sensitivity(MD_H_NUM, MD_V_NUM, Sensitivity);
+	//ak_md_set_area_sensitivity(MD_H_NUM, MD_V_NUM, Sensitivity);
+	ak_md_set_global_sensitivity(pmotion->SensitivityLevel.val);
 }
 
 /**
@@ -209,14 +210,16 @@ void ja_md_set_move_ratio(struct NK_MotionDetection* pmotion)
 void* ja_md_thread(void *arg)
 {
 	int md_time = 0;		/*calendar time ,second*/
-
+	char matrix[VPSS_MD_DIMENSION_H_MAX*VPSS_MD_DIMENSION_V_MAX];
+//	char matrix[VPSS_MD_DIMENSION_H_MAX*16];
 	ak_print_normal_ex("md thread id: %ld\n", (long int)ak_thread_get_tid());
 
 	do{
-		if(1 == ak_md_get_result(&md_time, NULL, 0))
+
+		if(1 == ak_md_get_result(&md_time, matrix, 0))
 		{
 			if (NULL != md_ctrl.pfunc)
-				md_ctrl.pfunc();
+				md_ctrl.pfunc(matrix);
 		}
 
 		ak_sleep_ms(1000);
@@ -239,7 +242,7 @@ void ja_md_start_movedetection(void)
 	md_ctrl.bRunning = AK_FALSE;
     ja_md_load(&motion);
     ak_print_normal_ex("[%s]enable=%d, SensitivityLevel=%d\n", __func__, motion.Enabled.val, motion.SensitivityLevel.val);
-
+	motion.Enabled.val = 1;
     if (motion.Enabled.val == 0)
     {
         ak_print_normal_ex("motion detection disabled!!\n");
