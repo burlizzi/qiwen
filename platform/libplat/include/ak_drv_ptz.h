@@ -138,8 +138,20 @@ int ak_drv_ptz_check_self_ex(enum ptz_feedback_pin pin_type,
 
 
 
-int ak_drv_ptz_set_angle_rate(int h,int v);
-int ak_drv_ptz_set_degree(int h,int v);
+/**
+ * ak_drv_ptz_set_angle_rate deprecated > SDK1.8.00.
+ */
+#define ak_drv_ptz_set_angle_rate(__h_rate, __v_rate) \
+	do {\
+		ak_print_error_ex ("%s() deprecated > SDK1.8.00.\r\n", __func__);\
+	} while (0)
+
+/**
+ * @ref ak_drv_ptz_setup_step_param Quick Call.
+ */
+#define ak_drv_ptz_set_degree(__h_degree, __v_degree) \
+		(ak_drv_ptz_setup_step_param (PTZ_DEV_H, 2048, 2048 * (__h_degree) / 360, -1) == AK_SUCCESS                       \
+		&& ak_drv_ptz_setup_step_param (PTZ_DEV_V, 2048, 2048 * (__v_degree) / 360, -1) == AK_SUCCESS ? AK_SUCCESS : AK_FAILED)
 
 
 struct motor_message ak_drv_ptz_get_step_status (enum ptz_device motor_no);
