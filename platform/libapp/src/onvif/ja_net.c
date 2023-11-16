@@ -152,13 +152,13 @@ void* get_ip_conflict_proc(void *param)
 
 	ak_print_normal_ex("thread id : %ld\n", ak_thread_get_tid());
 
-    while(ip_adapt_ctrl.bRunning)
+    //while(ip_adapt_ctrl.bRunning)
     {
 		ak_net_get_ip("eth0", ipstr);
 
 	    g_ip_conflict_flag = NET_check_ip_conflict(ipstr);
 	    if (g_ip_conflict_flag)
-	        ak_print_normal_ex("IP %s conflict:%d\r\n", ipstr, g_ip_conflict_flag);
+	        ak_print_normal_ex("------IP %s conflict:%d\r\n", ipstr, g_ip_conflict_flag);
 
 	    ak_sleep_ms(3000);
     }
@@ -424,13 +424,13 @@ int ja_net_set_wired_net_parm(char* ipaddr, char* netmask, char* gateway)
 	if (!ja_net_check_net_parm(ipaddr, netmask, gateway))
         return AK_FAILED;
 	
-	ak_net_set_ip("eth0", ipaddr);
-	ak_net_set_netmask("eth0", netmask);
-	ak_net_set_default_gateway(gateway);
+	//ak_net_set_ip("eth0", ipaddr);
+	//ak_net_set_netmask("eth0", netmask);
+	//ak_net_set_default_gateway(gateway);
 
-	ak_net_get_ip("eth0", ip);
-	ak_net_get_netmask("eth0", mask);
-	ak_net_get_route("eth0", gw);
+	//ak_net_get_ip("eth0", ip);
+	//ak_net_get_netmask("eth0", mask);
+	//ak_net_get_route("eth0", gw);
 
 	if ((0 != strcmp(ip, ipaddr))
 		|| (0 != strcmp(gw, gateway))

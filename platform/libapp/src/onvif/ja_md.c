@@ -166,8 +166,8 @@ void ja_md_set_move_ratio(struct NK_MotionDetection* pmotion)
 	}
 	
 	/*
-	 *°Ñ32*24µÄÇøÓò×ª»»³É8*8µÄ£¬12Ð¡¿éºÏ²¢Îª1´ó¿é£¬Èô¸Ã´ó¿éµÄ12Ð¡¿éÖÐÓÐ6¸ö¼°
-	 *ÒÔÉÏ±»Ñ¡£¬ÔòÈÏÎª¸Ã´ó¿é±»Ñ¡¡£
+	 *ï¿½ï¿½32*24ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½8*8ï¿½Ä£ï¿½12Ð¡ï¿½ï¿½Ï²ï¿½Îª1ï¿½ï¿½é£¬ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½12Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½6ï¿½ï¿½ï¿½ï¿½
+	 *ï¿½ï¿½ï¿½Ï±ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Ã´ï¿½é±»Ñ¡ï¿½ï¿½
 	 */
 	for(i = 0; i < MD_H_NUM * MD_V_NUM; i++) {
 		cnt = 0;    	
@@ -217,6 +217,7 @@ void* ja_md_thread(void *arg)
 		{
 			if (NULL != md_ctrl.pfunc)
 				md_ctrl.pfunc();
+			ak_print_normal_ex("movement detected: %ld\n", (long int)ak_thread_get_tid());
 		}
 
 		ak_sleep_ms(1000);

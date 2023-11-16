@@ -75,6 +75,7 @@ export LOCAL_GEN LOCAL_COMMON_FLAG
 ifeq ($(COMPILE_DEMO), y)
 	dir_y += demo
 endif
+	dir_y += src
 
 all:
 	@for i in $(dir_y); \

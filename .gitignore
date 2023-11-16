@@ -1,2 +1,5 @@
 *.o
 *.a
+*.so
+platform/apps/*
+platform/libmpi/demo/*

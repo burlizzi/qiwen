@@ -2,11 +2,7 @@ SRCS := $(wildcard *.c)
 OBJS := $(patsubst %.c,%.o,$(SRCS))
 LIB_NAME := libapp_onvif
 
-ifeq ($(COMPILE_SO), y)
-	TARGET := $(LIB_NAME).so
-else
-	TARGET := $(LIB_NAME).a
-endif
+TARGET := $(LIB_NAME).so
 
 ONVIF_INCLUDE:=$(shell pwd)/include
 CFLAGS += $(addprefix -I,$(ONVIF_INCLUDE))

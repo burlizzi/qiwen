@@ -646,7 +646,7 @@ static int check_record_exception(void)
 	if(SD_STATUS_CARD_INSERT & ak_sd_check_insert_status()){                                        //判断sd卡插入状态,已经插入sd卡
 		if((record_ctrl.except_type & DVR_EXCEPT_SD_REMOVED)){                                      //上次的检测发现sd卡被拔出,则重新mount sd卡
 			ak_print_normal_ex("--- SD Card Inserted ---\n");
-			fuser_remount( ) ;                                                                      //重新mount sd卡
+			//fuser_remount( ) ;                                                                      //重新mount sd卡
 		}
 		record_ctrl.except_type &= (~DVR_EXCEPT_SD_REMOVED);                                        //DVR_EXCEPT_SD_REMOVED标志置0
 		if(AK_SUCCESS == ak_sd_check_mount_status()){                                               //检测mount的状态,已经mount

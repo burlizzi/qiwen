@@ -1,7 +1,7 @@
 /**
- * N1 Éè±¸ÊµÏÖÓÃÀý¡£\n
- * ÓÃÀýÖÐÍ¨¹ýµ÷ÓÃ N1 Éè±¸Ä£¿é£¨ÏÂ¼ò³ÆÄ£¿é£©Ïà¹Ø½Ó¿Ú£¬\n
- * ÊµÏÖ¾ÖÓòÍøÏÂ N1 Éè±¸Óë N1 ¿Í»§¶Ë£¨ÏÂ¼ò³Æ¿Í»§¶Ë£©½»»¥µÄ¹ý³Ì¡£\n
+ * N1 ï¿½è±¸Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ N1 ï¿½è±¸Ä£ï¿½é£¨ï¿½Â¼ï¿½ï¿½Ä£ï¿½é£©ï¿½ï¿½Ø½Ó¿Ú£ï¿½\n
+ * Êµï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ N1 ï¿½è±¸ï¿½ï¿½ N1 ï¿½Í»ï¿½ï¿½Ë£ï¿½ï¿½Â¼ï¿½Æ¿Í»ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½Ì¡ï¿½\n
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,9 +57,9 @@
 #define USR_PASSWORD_SIZE_MAX	(64)
 
 #ifdef CONFIG_N1_WIFI_SUPPORT
-#define HARDWARE_CODE		391808		//ÖÆ×÷Éý¼¶°üÊ±ÒªÆ¥Åä´ËÓ²¼þÂë
+#define HARDWARE_CODE		391808		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ÒªÆ¥ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½
 #else
-#define HARDWARE_CODE		391807		//ÖÆ×÷Éý¼¶°üÊ±ÒªÆ¥Åä´ËÓ²¼þÂë
+#define HARDWARE_CODE		391807		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ÒªÆ¥ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½
 #endif
 
 
@@ -204,7 +204,7 @@ void n1_usr_load(void)
 }
 
 /**
- * ÏÖ³¡×¥Í¼ÊÂ¼þ¡£
+ * ï¿½Ö³ï¿½×¥Í¼ï¿½Â¼ï¿½ï¿½ï¿½
  *
  */
 static NK_N1Ret
@@ -214,6 +214,7 @@ n1_onLiveSnapshot(NK_Int channel_id, NK_Size width, NK_Size height, NK_PByte pic
 	struct video_stream s = {0};
 	struct encode_param param = {0};
 	struct onvif_camera_config *camera = onvif_config_get_camera();
+	//struct onvif_image_config* image = onvif_config_get_image();
 	void *picture = NULL;
 	NK_N1Ret ret = NK_N1_ERR_UNDEF;
 	int i = 0;
@@ -279,19 +280,19 @@ n1_onLiveSnapshot(NK_Int channel_id, NK_Size width, NK_Size height, NK_PByte pic
 }
 
 /**
- * Á÷Ã½ÌåÖ±²¥Ïà¹ØÊÂ¼þ¡£\n
- * µ±¿Í»§¶Ë·¢ÏÖµ½Éè±¸Ê±£¬ÓÉÓÚÁ½ÕßÍøÂçÅäÖÃ±¾Éí´æÔÚ²îÒì¶øÎÞ·¨½»»¥£¬\n
- * ¿Í»§¶Ë»áÍ¨¹ýÅäÖÃÉè±¸·½Ê½Ê¹Á½ÕßÔÚ¾ÖÓòÍøÏÂÂú×ã½»»¥Ìõ¼þ¡£\n
- * ¿Í»§¶ËÅäÖÃÊ±»á´¥·¢ÒÔÏÂÊÂ¼þ¡£\n
+ * ï¿½ï¿½Ã½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½\n
+ * ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ë·ï¿½ï¿½Öµï¿½ï¿½è±¸Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n
+ * ï¿½Í»ï¿½ï¿½Ë»ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è±¸ï¿½ï¿½Ê½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n
+ * ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½á´¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½\n
  */
 static NK_N1Ret
 n1_onLiveConnected(NK_N1LiveSession *Session, NK_PVoid ctx)
 {
 	/**
 	 *
-	 * Ö÷ÂëÁ÷·Ö±æÂÊ²»½¨Òé´óÓÚ 1920x1080 ÏñËØ£¬Ö¡ÂÊ²»½¨Òé´óÓÚ 30 Ö¡\n
-	 * ¸¨ÂëÁ÷·Ö±æÂÊ²»½¨Òé´óÓÚ 704x480 ÏñËØ£¬Ö¡ÂÊ²»½¨Òé´óÓÚ 30 Ö¡£¬\n
-	 * ·ñÔòÊ¹¿Í»§¶Ë´¦ÀíÆ÷×ÊÔ´ÏûºÄ¹ý´óÓ°ÏìÌåÑé¡£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½Ê²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1920x1080 ï¿½ï¿½ï¿½Ø£ï¿½Ö¡ï¿½Ê²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 30 Ö¡\n
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½Ê²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 704x480 ï¿½ï¿½ï¿½Ø£ï¿½Ö¡ï¿½Ê²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 30 Ö¡ï¿½ï¿½\n
+	 * ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Í»ï¿½ï¿½Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½ï¿½é¡£
 	 *
 	 */
 	N1_USR_STRUCT *usr = NULL;
@@ -715,9 +716,9 @@ n1_onLiveReadFrame(NK_N1LiveSession *Session, NK_PVoid ctx,
 {
 	/**
 	 *
-	 * Ö÷ÂëÁ÷µ¥Êý¾Ý°ü×Ü´óÐ¡²»½¨Òé´óÓÚ 1M ×Ö½Ú£¬\n
-	 * ¸¨ÂëÁ÷µ¥Êý¾Ý°ü×Ü´óÐ¡²»½¨Òé´óÓÚ 300k ×Ö½Ú£¬\n
-	 * ·ñÔò¿Í»§¶Ë¿ÉÄÜÓÉÓÚË²Ê±ÄÚ´æ²»×ãÔì³É½âÂëÒì³£¡£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý°ï¿½ï¿½Ü´ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1M ï¿½Ö½Ú£ï¿½\n
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý°ï¿½ï¿½Ü´ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 300k ï¿½Ö½Ú£ï¿½\n
+	 * ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½Ë¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë²Ê±ï¿½Ú´æ²»ï¿½ï¿½ï¿½ï¿½É½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½
 	 *
 	 */
 	NK_SSize len = 0;
@@ -860,7 +861,7 @@ static void n1_set_time(NK_N1LanSetup *LanSetup)
 	struct tm setup_tm;
 	struct onvif_sys_config *pSys_info = onvif_config_get_sys();
 			
-	/* ×ª»»³É¿ÉÔÄ¶ÁµÄÊ±¼ä¸ñÊ½¡£*/
+	/* ×ªï¿½ï¿½ï¿½É¿ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ê½ï¿½ï¿½*/
 	gmtime_r((time_t *)(&LanSetup->Time.utc), &setup_tm);
 	ak_print_normal_ex("Test: Set Time %04d:%02d:%02d %02d:%02d:%02d GMT\n",
 			setup_tm.tm_year + 1900, setup_tm.tm_mon + 1, setup_tm.tm_mday,
@@ -949,12 +950,12 @@ static void n1_init_img(NK_N1LanSetup *LanSetupVideoImage)
 		LanSetupVideoImage->VideoImage.ContrastLevel.val = img->contrast;
 		LanSetupVideoImage->VideoImage.SaturationLevel.val = img->saturation;
 		LanSetupVideoImage->VideoImage.SharpnessLevel.val = img->sharp;
-
+		
 		LanSetupVideoImage->VideoImage.Flip.val = img->flip;
 		LanSetupVideoImage->VideoImage.Mirror.val = img->mirror;
 
 		/**
-		 * ÔË¶¯Õì²â¡£
+		 * ï¿½Ë¶ï¿½ï¿½ï¿½â¡£
 		 */
 		LanSetupVideoImage->VideoImage.MotionDetection.Enabled.val = NK_FALSE;
 		LanSetupVideoImage->VideoImage.MotionDetection.SensitivityLevel.val = 80;
@@ -979,7 +980,7 @@ static void n1_init_img(NK_N1LanSetup *LanSetupVideoImage)
 		}
 
 		/**
-		 * Í¼Ïñ·ç¸ñ
+		 * Í¼ï¿½ï¿½ï¿½ï¿½
 		 */
 		LanSetupVideoImage->VideoImage.ColorStyle.val = ja_media_get_styleId() + 1;
 		LanSetupVideoImage->VideoImage.ColorStyle.def = 1;
@@ -1073,7 +1074,7 @@ static NK_N1Ret n1_set_wired(NK_N1LanSetup *LanSetupWired)
 	NK_Char ipaddr[32], netmask[32], gateway[32];
 
 	/**
-	 * ÒÔÏÂÒÔ Linux ÏµÍ³ÖÐÊ¹ÓÃ eth0:1 Íø¿¨Ä£Äâ¡£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Linux ÏµÍ³ï¿½ï¿½Ê¹ï¿½ï¿½ eth0:1 ï¿½ï¿½ï¿½ï¿½Ä£ï¿½â¡£
 	 */
 	NK_N1_PROP_IPV4_STR(&LanSetupWired->NetWired.IPAddress, ipaddr, sizeof(ipaddr));
 	NK_N1_PROP_IPV4_STR(&LanSetupWired->NetWired.Netmask, netmask, sizeof(netmask));
@@ -1284,24 +1285,24 @@ static void n1_get_ai_source(NK_N1LanSetup *LanSetup)
 }
 
 /**
- * Éè±¸¾ÖÓòÍøÅäÖÃÏà¹ØÊÂ¼þ¡£\n
+ * ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½\n
  *
  */
 NK_N1Ret
 n1_onLanSetup(NK_PVoid ctx, NK_Boolean is_set, NK_N1LanSetup *LanSetup)
 {
 	/**
-	 * ÉèÖÃµÄÊ±ºò´òÓ¡ÉèÖÃÐÅÏ¢¡£
+	 * ï¿½ï¿½ï¿½Ãµï¿½Ê±ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½
 	 */
 	if (is_set) {
 		NK_N1_LAN_SETUP_DUMP(LanSetup);
 	}
 
 	/**
-	 * ²Î¿¼ÅäÖÃÑ¡Ïî¡£
-	 * ¸ù¾Ý¸÷¸öÆ½Ì¨µÄ¾ßÌå¹¤×÷ÄÜÁ¦£¬ÅäÖÃ¸÷¸ö²ÎÊýµÄÄÜÁ¦¼¯¡£
-	 * ¿Í»§¶Ë»á¸ù¾ÝÄÜÁ¦¼¯Éú³ÉÓÃ»§½çÃæ¡£
-	 * ÒÔÏÂÓÃ¾²Ì¬±äÁ¿µÄ·½Ê½Ä£ÄâÉè±¸±£´æÅäÖÃµÄ¹ý³Ì¡£
+	 * ï¿½Î¿ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½î¡£
+	 * ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½Æ½Ì¨ï¿½Ä¾ï¿½ï¿½å¹¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½Í»ï¿½ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½æ¡£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ã¾ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½Ê½Ä£ï¿½ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄ¹ï¿½ï¿½Ì¡ï¿½
 	 */
 
 	ak_print_info_ex("n1_onLanSetup is_set = %d, LanSetup->classify = %d\n",
@@ -1320,16 +1321,16 @@ n1_onLanSetup(NK_PVoid ctx, NK_Boolean is_set, NK_N1LanSetup *LanSetup)
 		case NK_N1_LAN_SETUP_TIME:
 		{
 			/**
-			 * ÅäÖÃÉè±¸Ê±¼ä¡£
+			 * ï¿½ï¿½ï¿½ï¿½ï¿½è±¸Ê±ï¿½ä¡£
 			 */
 			if (is_set) {
 				/**
-				 * ÅäÖÃÉè±¸Ê±¼ä²ÎÊý¡£
+				 * ï¿½ï¿½ï¿½ï¿½ï¿½è±¸Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				 */
 				n1_set_time(LanSetup);
 			} else {
 				/**
-				 * »ñÈ¡Éè±¸Ê±¼ä²ÎÊýÅäÖÃ¡£
+				 * ï¿½ï¿½È¡ï¿½è±¸Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¡ï¿½
 				 */
 				n1_get_time(LanSetup);
 			}
@@ -1339,20 +1340,20 @@ n1_onLanSetup(NK_PVoid ctx, NK_Boolean is_set, NK_N1LanSetup *LanSetup)
 
 
 		/**
-		 * @name ÅäÖÃÊÓÆµÍ¼ÏñÏà¹ØÓÃÀý¡£
+		 * @name ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÆµÍ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		 */
 		case NK_N1_LAN_SETUP_VIMG:
 		{
 			if (is_set) {
 				/**
-				 * ÅäÖÃÍ¼Ïñ²ÎÊý¡£
+				 * ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				 */
 				ak_print_normal_ex("Test: Set Video Image Attributes.\n");
 				memcpy(&_LanSetupVideoImage, LanSetup, sizeof(NK_N1LanSetup));
 				n1_set_img(&_LanSetupVideoImage);				
 			} else {
 				/**
-				 * »ñÈ¡Í¼Ïñ²ÎÊýÅäÖÃ¡£
+				 * ï¿½ï¿½È¡Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¡ï¿½
 				 */
 				n1_get_img(&_LanSetupVideoImage);
 				memcpy(LanSetup, &_LanSetupVideoImage, sizeof(NK_N1LanSetup));
@@ -1363,7 +1364,7 @@ n1_onLanSetup(NK_PVoid ctx, NK_Boolean is_set, NK_N1LanSetup *LanSetup)
 		break;
 
 		/**
-		 * @name ÔÆÌ¨¿ØÖÆÅäÖÃÏà¹ØÓÃÀý¡£
+		 * @name ï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		 */
 		case NK_N1_LAN_SETUP_PTZ:
 		{
@@ -1374,15 +1375,15 @@ n1_onLanSetup(NK_PVoid ctx, NK_Boolean is_set, NK_N1LanSetup *LanSetup)
 		break;
 
 		/**
-		 * @name ÓÐÏßÍøÂçÅäÖÃ¡£
+		 * @name ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¡ï¿½
 		 */
 		case NK_N1_LAN_SETUP_NET_WIRED:{
 			/**
-			 * Ä£Äâ±¾µØ»º´æ¡£
+			 * Ä£ï¿½â±¾ï¿½Ø»ï¿½ï¿½æ¡£
 			 */
 			if (is_set) {
 				/**
-				 * ÉèÖÃ IP µØÖ·¡£
+				 * ï¿½ï¿½ï¿½ï¿½ IP ï¿½ï¿½Ö·ï¿½ï¿½
 				 */
 				n1_set_wired(LanSetup);
 				ak_print_normal_ex("Test: Set Wired Network.\n");
@@ -1404,7 +1405,7 @@ n1_onLanSetup(NK_PVoid ctx, NK_Boolean is_set, NK_N1LanSetup *LanSetup)
 		break;
 
 		/**
-		 * @ P2P ¿ª¹Ø½Ó¿Ú¡£
+		 * @ P2P ï¿½ï¿½ï¿½Ø½Ó¿Ú¡ï¿½
 		 */
 
 		case NK_N1_LAN_SETUP_P2P: {
@@ -1441,12 +1442,12 @@ n1_onLanSetup(NK_PVoid ctx, NK_Boolean is_set, NK_N1LanSetup *LanSetup)
 
 	if (NK_False) {
 		/**
-		 * Èç¹ûÉèÖÃÃüÁîÖÐ´æÔÚ´íÎó²ÎÊý·µ»ØÒÔÏÂÊýÖµ¡£
+		 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
 		 */
 		return NK_N1_ERR_INVALID_PARAM;
 	}
 	/**
-	 * ÅäÖÃ³É¹¦¡£
+	 * ï¿½ï¿½ï¿½Ã³É¹ï¿½ï¿½ï¿½
 	 */
 
 	return NK_N1_ERR_NONE;
@@ -1456,9 +1457,9 @@ static NK_Char
 _deviceID[32] = {0};
 
 
-/** * µ±Éè±¸ÔÚ³ö³§ÉèÖÃÐëÒªÂ¼ÈëÉè±¸ÐòÁÐºÅµÄÊ±ºò»á´¥·¢´ËÊÂ¼þ¡£
-* ÕâÀï´«ÈëµÄÐòÁÐºÅÐëÒªÉè±¸¸ºÔðÍÐ¹Ü±£´æ£¬
-* ÓÃÓÚµ±Ç°Éè±¸¸÷ÖÖÎ¨Ò»ÂëÈÏÖ¤³¡ºÏÊ¹ÓÃ¡£
+/** * ï¿½ï¿½ï¿½è±¸ï¿½Ú³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÂ¼ï¿½ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ÐºÅµï¿½Ê±ï¿½ï¿½á´¥ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
+* ï¿½ï¿½ï¿½ï´«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½ï¿½ï¿½Òªï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½Ð¹Ü±ï¿½ï¿½æ£¬
+* ï¿½ï¿½ï¿½Úµï¿½Ç°ï¿½è±¸ï¿½ï¿½ï¿½ï¿½Î¨Ò»ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½Ã¡ï¿½
 *
 */
 static NK_Void
@@ -1482,7 +1483,7 @@ n1_onWriteUID(NK_PVoid ctx, NK_PChar deviceID, NK_Size len)
 }
 
 /**
- * ¶ÁÈ¡ NK_N1DeviceEventProduction::EvtProduction::onWriteUID ÊÂ¼þÐ´ÈëµÄÐòÁÐºÅ¡£
+ * ï¿½ï¿½È¡ NK_N1DeviceEventProduction::EvtProduction::onWriteUID ï¿½Â¼ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÐºÅ¡ï¿½
  *
  */
 static NK_Void
@@ -1524,12 +1525,12 @@ static int free_pmem(void)
 
 /**
  * @brief
- *  ¹Ì¼þÉý¼¶ÉêÇë´ó¿éÄÚ´æÊµÏÖ¡£
+ *  ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½Êµï¿½Ö¡ï¿½
  * @details
- *  ÔÚ¹Ì¼þÉý¼¶¹ý³ÌÖÐ£¬Ä£¿éÄÚ²¿¿ÉÄÜÐèÒªÊ¹ÓÃµ½´ó¿éÄÚ´æÓÃÓÚÎÄ¼þ»º³å£¬\n
- *  ´ËÊ±Ä£¿é»áÏòÓÃ»§ÉêÇëÄÚ´æÊý¾Ý£¬²ÎÊý @ref len ÃèÊöÄ£¿éÐèÒªÊ¹ÓÃµÄÄÚ´æ´óÐ¡£¬\n
- *  ÓÃ»§¿ÉÒÔ·ÖÅäÕ»ÇøÄÚ´æ£¬»òÕßÒ»Ð©¼È¶¨µÄÎïÀíÄÚ´æ£¨Èçº£Ë¼ÏµÁÐ SoC µÄ MMZ ÄÚ´æ£©Ìá¹©¸øÄ£¿éÊ¹ÓÃ£¬\n
- *  Í¨¹ý²ÎÊý @ref mem ·µ»ØÖ¸Õë£¬Èç¹ûÓÃ»§ÉêÇëÄÚ´æÊ§°Ü²»Óè¸³Öµ¡£
+ *  ï¿½Ú¹Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½Ä£ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÊ¹ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½å£¬\n
+ *  ï¿½ï¿½Ê±Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ @ref len ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ÒªÊ¹ï¿½Ãµï¿½ï¿½Ú´ï¿½ï¿½Ð¡ï¿½ï¿½\n
+ *  ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½Ú´æ£¬ï¿½ï¿½ï¿½ï¿½Ò»Ð©ï¿½È¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´æ£¨ï¿½çº£Ë¼Ïµï¿½ï¿½ SoC ï¿½ï¿½ MMZ ï¿½Ú´æ£©ï¿½á¹©ï¿½ï¿½Ä£ï¿½ï¿½Ê¹ï¿½Ã£ï¿½\n
+ *  Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ @ref mem ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½Ê§ï¿½Ü²ï¿½ï¿½è¸³Öµï¿½ï¿½
  *
  */
 static NK_Void
@@ -1586,10 +1587,10 @@ UpgradeOnGetUserMem(NK_PVoid ctx, NK_Size len, NK_PVoid *mem)
 
 /**
  * @brief
- *  ¹Ì¼þÉý¼¶ÊÍ·Å´ó¿éÄÚ´æÊµÏÖ¡£
+ *  ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·Å´ï¿½ï¿½ï¿½Ú´ï¿½Êµï¿½Ö¡ï¿½
  * @details
- *  ¶ÔÓ¦ UpgradeOnGetUserMem() ÊÂ¼þÊµÏÖ£¬Ä£¿é¶Ô´ó¿éÄÚ´æÊ¹ÓÃÍê±ÏÒÔºóÍ¨¹ý´¥·¢´ËÊÂ¼þÍ¨ÖªÓÃ»§ÊÍ·Å¸ÃÄÚ´æ£¬\n
- *  ÓÃ»§±ØÐë¸ù¾Ý @ref mem ÄÚ´æµØÖ·ÐÅÏ¢ÊÍ·Å¸Ã¿éÄÚ´æÊý¾Ý£¬·ñÔò¿ÉÄÜ»áÔì³ÉÓ¦ÓÃ³ÌÐòÄÚ´æÐ¹Â©¡£
+ *  ï¿½ï¿½Ó¦ UpgradeOnGetUserMem() ï¿½Â¼ï¿½Êµï¿½Ö£ï¿½Ä£ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ú´ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôºï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½Í¨Öªï¿½Ã»ï¿½ï¿½Í·Å¸ï¿½ï¿½Ú´æ£¬\n
+ *  ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ @ref mem ï¿½Ú´ï¿½ï¿½Ö·ï¿½ï¿½Ï¢ï¿½Í·Å¸Ã¿ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü»ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ã³ï¿½ï¿½ï¿½ï¿½Ú´ï¿½Ð¹Â©ï¿½ï¿½
  *
  */
 static NK_Void
@@ -1645,16 +1646,16 @@ static NK_N1Error n1_update_storefile(NK_PByte file, NK_Size size)
 }
 
 /**
- * ¹Ì¼þ¾µÏñÉý¼¶µ¼ÈëÎÄ¼þÊÂ¼þ¡£
+ * ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
  *
  */
 static NK_N1Error
 UpgradeOnQualifyFile(NK_PVoid ctx, NK_PByte file, NK_Size size)
 {
 	/**
-	 * µ±Ç°Éè±¸²»Ö§³Ö¹Ì¼þÉý¼¶£¬·µ»Ø @ref NK_N1_ERR_UPGRADE_NOT_SUPPORT¡£
-	 * µ±ÊÕµ½¹Ì¼þÎÄ¼þ£¬¾­¹ýÐ£ÑéÒÔºó·¢ÏÖÎÄ¼þ´íÎó£¬·µ»Ø @ref NK_N1_ERR_FIRMWARE_FILE_ERROR¡£
-	 * ½ÓÊÕµ½¹Ì¼þÃ»ÓÐÈÎºÎ´íÎó£¬·µ»Ø @ref NK_N1_ERR_NONE, Ä£¿é»á¼ÌÐø´¥·¢ @ref EventSet::UpgradeOnUpgradeFile ÊÂ¼þ¡£
+	 * ï¿½ï¿½Ç°ï¿½è±¸ï¿½ï¿½Ö§ï¿½Ö¹Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ @ref NK_N1_ERR_UPGRADE_NOT_SUPPORTï¿½ï¿½
+	 * ï¿½ï¿½ï¿½Õµï¿½ï¿½Ì¼ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½Ôºï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ó£¬·ï¿½ï¿½ï¿½ @ref NK_N1_ERR_FIRMWARE_FILE_ERRORï¿½ï¿½
+	 * ï¿½ï¿½ï¿½Õµï¿½ï¿½Ì¼ï¿½Ã»ï¿½ï¿½ï¿½ÎºÎ´ï¿½ï¿½ó£¬·ï¿½ï¿½ï¿½ @ref NK_N1_ERR_NONE, Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ @ref EventSet::UpgradeOnUpgradeFile ï¿½Â¼ï¿½ï¿½ï¿½
 	 *
 	 */
 	 ak_print_normal_ex("update store file size:%u !\n", size);
@@ -1664,7 +1665,7 @@ UpgradeOnQualifyFile(NK_PVoid ctx, NK_PByte file, NK_Size size)
 
 static void n1_Firmwareupdate(NK_Size *rate)
 {
-	unsigned long totalsec = 22 * update_totalsize / 1024 / 1024;	//°´ÕÕ1MÐèÒª22Ãë¹ÀËãËùÐèÊ±¼ä
+	unsigned long totalsec = 22 * update_totalsize / 1024 / 1024;	//ï¿½ï¿½ï¿½ï¿½1Mï¿½ï¿½Òª22ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 	unsigned long time = 0;
 
 	ak_print_normal_ex("update need about %lu seconds!\n", totalsec);
@@ -1696,14 +1697,14 @@ static void n1_Firmwareupdate(NK_Size *rate)
 
 
 /**
- * ¹Ì¼þ¾µÏñÉý¼¶Ê±»ñÈ¡Éý¼¶½ø¶ÈÊÂ¼þ¡£
+ * ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
  *
  */
 static  NK_N1Error
 UpgradeOnUpgradeFile(NK_PVoid ctx, NK_PByte file, NK_Size size, NK_Size *rate)
 {
 	/**
-	 * Éý¼¶¹ý³ÌÖÐÒ»Ö±¸üÐÂ @ref rate µÄÊýÖµ¡£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Ö±ï¿½ï¿½ï¿½ï¿½ @ref rate ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
 	 *
 	 */
     	n1_Firmwareupdate(rate);
@@ -1712,14 +1713,14 @@ UpgradeOnUpgradeFile(NK_PVoid ctx, NK_PByte file, NK_Size size, NK_Size *rate)
 }
 
 /**
- * ¹Ì¼þ¾µÏñÉý¼¶Ê±»ñÈ¡Éý¼¶½ø¶ÈÊÂ¼þ¡£
+ * ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
  *
  */
 static NK_N1Error
 UpgradeOnUpgradeROM(NK_PVoid ctx, NK_Size version, NK_PByte file, NK_Size size, NK_Size *rate)
 {
 	/**
-	 * Éý¼¶¹ý³ÌÖÐÒ»Ö±¸üÐÂ @ref rate µÄÊýÖµ¡£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Ö±ï¿½ï¿½ï¿½ï¿½ @ref rate ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
 	 *
 	 */
 	 enum Nk_N1Result ret = NK_N1_ERR_NONE;
@@ -1742,7 +1743,7 @@ UpgradeOnUpgradeROM(NK_PVoid ctx, NK_Size version, NK_PByte file, NK_Size size, 
 }
 
 /**
- * ¹Ì¼þ¾µÏñÉý¼¶Íê³ÉÊÂ¼þ¡£
+ * ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
  *
  */
 static NK_N1Error
@@ -1767,7 +1768,7 @@ UpgradeOnUpgradeEnd(NK_PVoid ctx)
 
 /**
  * @brief
- *	»ñÈ¡¼àÌý¶Ë¿ÚÊÂ¼þ¡£
+ *	ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ë¿ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
  */
 NK_UInt16
 n1_HikonGetPort(NK_PVoid ctx)
@@ -1795,7 +1796,7 @@ n1_HikonSetPort(NK_PVoid ctx, NK_UInt16 port)
 
 /**
  * @brief
- *	»ñÈ¡¼àÌý¶Ë¿ÚÊÂ¼þ¡£
+ *	ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ë¿ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
  */
 NK_UInt16
 n1_RTSPonGetPort(NK_PVoid ctx)
@@ -1807,7 +1808,7 @@ n1_RTSPonGetPort(NK_PVoid ctx)
 
 /**
  * @brief
- *	»Ö¸´³ö³§ÉèÖÃ
+ *	ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 NK_Void
 n1_onReset(NK_PVoid ctx)
@@ -1820,7 +1821,7 @@ n1_onReset(NK_PVoid ctx)
 
 /**
  * @brief
- *	ÏµÍ³ÖØÆô
+ *	ÏµÍ³ï¿½ï¿½ï¿½ï¿½
  */
 NK_Void
 n1_onReboot(NK_PVoid ctx)
@@ -1831,7 +1832,7 @@ n1_onReboot(NK_PVoid ctx)
 
 /**
  * @brief
- *	»ñÈ¡Éè±¸ÄÜÁ¦¼¯ÊÂ¼þ
+ *	ï¿½ï¿½È¡ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
  */
 NK_Void
 n1_onCapabilities(NK_PVoid ctx, NK_N1DeviceCapabilities *Capabilities)
@@ -1869,7 +1870,7 @@ n1_onCapabilities(NK_PVoid ctx, NK_N1DeviceCapabilities *Capabilities)
 
 /**
  * @brief
- *	Éè±¸Òì³£ÊÂ¼þ
+ *	ï¿½è±¸ï¿½ì³£ï¿½Â¼ï¿½
  */
 NK_Void
 n1_onCatchException(NK_PVoid ctx, NK_N1DeviceException *Excp)
@@ -1883,7 +1884,7 @@ n1_onCatchException(NK_PVoid ctx, NK_N1DeviceException *Excp)
 
 /**
  * @brief
- *	»ñÈ¡ÊÓÆµ±àÂëÆ÷²ÎÊý
+ *	ï¿½ï¿½È¡ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @details
  */
 NK_Boolean
@@ -1989,7 +1990,7 @@ n1_onGetVideoEncoder(NK_PVoid ctx, NK_Int chid, NK_Int streamid, NK_N1VideoEncod
 
 /**
  * @brief
- *	ÉèÖÃÊÓÆµ±àÂëÆ÷²ÎÊý
+ *	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 NK_Boolean
 n1_onSetVideoEncoder(NK_PVoid ctx, NK_Int chid, NK_Int streamid, NK_N1VideoEncoder *Encoder)
@@ -2064,7 +2065,7 @@ n1_onGetEther(NK_PVoid ctx, NK_Boolean wifi, NK_N1EthConfig *EthCfg)
 {
 	NK_Char ipaddr[32] = {0}, netmask[32] = {0}, gateway[32] = {0}, dns[64] = {0};
 
-	/*wifiÎªfalse±íÊ¾ÓÐÏß,Îªtrue±íÊ¾ÎÞÏß*/
+	/*wifiÎªfalseï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½,Îªtrueï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½*/
 	if (NK_False == wifi) {
 		ak_net_get_ip("eth0", ipaddr);
 		ak_net_get_netmask("eth0", netmask);
@@ -2091,24 +2092,24 @@ n1_onSetEther(NK_PVoid ctx, NK_Boolean wifi, NK_N1EthConfig *EthCfg)
 	NK_N1_PROP_IPV4_STR(&EthCfg->Netmask, netmask, sizeof(netmask));
 	NK_N1_PROP_IPV4_STR(&EthCfg->Gateway, gateway, sizeof(gateway));
 
-	/*wifiÎªfalse±íÊ¾ÓÐÏß,Îªtrue±íÊ¾ÎÞÏß*/
+	/*wifiÎªfalseï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½,Îªtrueï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½*/
 	if (NK_False == wifi) {
-		ja_net_set_wired_net_parm(ipaddr, netmask, gateway);
+		//ja_net_set_wired_net_parm(ipaddr, netmask, gateway);
 	} else {
-		ak_net_set_ip("wlan0", ipaddr);
-		ak_net_set_netmask("wlan0", netmask);
-		ak_net_set_default_gateway(gateway);
+		//ak_net_set_ip("wlan0", ipaddr);
+		//ak_net_set_netmask("wlan0", netmask);
+		//ak_net_set_default_gateway(gateway);
 	}
 }
 
 /**
- * ÈÕÖ¾²ÁÐ´»Øµ÷¡£
+ * ï¿½ï¿½Ö¾ï¿½ï¿½Ð´ï¿½Øµï¿½ï¿½ï¿½
  */
 static NK_Void
 n1_onFlushLog(NK_PByte bytes, NK_Size len)
 {
 	/**
-	 * ×¢Òâ£º´Ë»Øµ÷½Ó¿ÚÄÚ²»ÄÜµ÷ÓÃ NK_Log() Ïà¹Ø½Ó¿Ú¡£
+	 * ×¢ï¿½â£ºï¿½Ë»Øµï¿½ï¿½Ó¿ï¿½ï¿½Ú²ï¿½ï¿½Üµï¿½ï¿½ï¿½ NK_Log() ï¿½ï¿½Ø½Ó¿Ú¡ï¿½
 	 */
 
 #if 0
@@ -2151,7 +2152,7 @@ n1_onFlushLog(NK_PByte bytes, NK_Size len)
 
 /**
  * @brief
- *	ÉèÖÃIP×ÔÊÊÓ¦¿ª¹Ø
+ *	ï¿½ï¿½ï¿½ï¿½IPï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
  */
 NK_Void
 n1_onSetAutoIPAdapt(NK_PVoid ctx, NK_Boolean on)
@@ -2167,7 +2168,7 @@ n1_onSetAutoIPAdapt(NK_PVoid ctx, NK_Boolean on)
 
 /**
  * @brief
- *	»ñÈ¡IP×ÔÊÊÓ¦¿ª¹Ø
+ *	ï¿½ï¿½È¡IPï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
  */
 NK_Boolean
 n1_onGetAutoIPAdapt(NK_PVoid ctx)
@@ -2179,7 +2180,7 @@ n1_onGetAutoIPAdapt(NK_PVoid ctx)
 
 /**
  * @brief
- *	»î¶¯ Onvif IP ×ÔÊÊÓ¦¹¦ÄÜ
+ *	ï¿½î¶¯ Onvif IP ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
  */
 NK_Void
 n1_onActiveAutoIPAdapt(NK_PVoid ctx, NK_Boolean actived)
@@ -2276,7 +2277,7 @@ onMakeIFrame(NK_PVoid ctx,  NK_Int chid, NK_Int streamid)
 }
 
 
-/* *½«ÐòÁÐºÅ×ª»¯ÎªMACµØÖ· */
+/* *ï¿½ï¿½ï¿½ï¿½ï¿½Ðºï¿½×ªï¿½ï¿½ÎªMACï¿½ï¿½Ö· */
 static const char *netsdk_sn_to_mac(const char *sn, char *result, int result_max)
 {
 	unsigned int serialNumber = atoi(sn + strlen(sn) - 9);
@@ -2343,8 +2344,8 @@ void n1_init(int listen_port)
 	NK_N1Device N1Device;
 
 	/**
-	 * ÅäÖÃËæ»úÊýÖÖ×Ó¡£
-	 * ½¨ÒéÓÃ»§ÔÚÍâ²¿µ÷ÓÃ´Ë½Ó¿Ú£¬ÒÔÈ·±£¿âÄÚ²¿µ÷ÓÃ rand ²úÉúËæ»úÊýÖØ¸´ÐÔ½µµÍ¡£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½â²¿ï¿½ï¿½ï¿½Ã´Ë½Ó¿Ú£ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ rand ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½Ô½ï¿½ï¿½Í¡ï¿½
 	 */
 	//srand(time(NULL));
 	usleep(10000);
@@ -2354,8 +2355,8 @@ void n1_init(int listen_port)
 	srand(tv.sec * tv.usec);
 
 	/**
-	 * Í¨¹ý°æ±¾ºÅÅÐ¶ÏÒ»ÏÂ¶þ½øÖÆ¿âÓëÍ·ÎÄ¼þÊÇ·ñÆ¥Åä¡£
-	 * ±ÜÃâÓÉÓÚÊý¾Ý½á¹¹¶¨Òå²îÒì²úÉúÇ±ÔÚµÄÒþ»¼¡£
+	 * Í¨ï¿½ï¿½ï¿½æ±¾ï¿½ï¿½ï¿½Ð¶ï¿½Ò»ï¿½Â¶ï¿½ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½ï¿½Í·ï¿½Ä¼ï¿½ï¿½Ç·ï¿½Æ¥ï¿½ä¡£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý½á¹¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç±ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	NK_N1Device_Version(&ver_maj, &ver_min, &ver_rev, &ver_num);
 	if (NK_N1_VER_MAJ != ver_maj
@@ -2370,20 +2371,20 @@ void n1_init(int listen_port)
 	}
 
 	/**
-	 * ÅäÖÃÈÕÖ¾ÖÕ¶ËÊä³öµÈ¼¶¡£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½Õ¶ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½
 	 */
 	/*NK_Log()->setTerminalLevel(NK_LOG_LV_INFO);
 	NK_Log()->setLogLevel(NK_LOG_LV_INFO);*/
 	NK_Log()->onFlush = n1_onFlushLog;
 
 	/**
-	 * Çå¿ÕÊý¾Ý½á¹¹£¬¿ÉÒÔÓÐÐ§±ÜÃâ¸÷ÖÖÄÚ´æ´íÎó¡£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý½á¹¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½
 	 */
 	NK_BZERO(&N1Device, sizeof(N1Device));
 
 	/**
-	 * ÉèÖÃÉè±¸µÄÉè±¸ºÅ£¬´ËÉè±¸ºÅÓÃÓÚÔÚ¾ÖÓòÍøÖÐ×÷ÎªÉè±¸µÄÎ¨Ò»±êÊ¶¡£\n
-	 * Òò´ËÃ¿Ò»¸öÉè±¸±ØÐë²»Ò»Ñù¡£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½è±¸ï¿½ï¿½ï¿½è±¸ï¿½Å£ï¿½ï¿½ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½è±¸ï¿½ï¿½Î¨Ò»ï¿½ï¿½Ê¶ï¿½ï¿½\n
+	 * ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ë²»Ò»ï¿½ï¿½ï¿½ï¿½
 	 */
 	n1_ipcam_authentication();
 	ja_media_sn_read(_deviceID);
@@ -2392,9 +2393,9 @@ void n1_init(int listen_port)
 	snprintf(N1Device.device_id, sizeof(N1Device.device_id), _deviceID);
 
 	/**
-	 * Ð­ÒéÊ¹ÓÃ¶Ë¿Ú¡£
-	 * Ä£¿éÍ¨¹ýÊ¹ÓÃ´Ë¶Ë¿Ú½øÐÐ TCP/IP Êý¾ÝÇëÇó¼àÌý£¬
-	 * Òò´ËÔÚÉè¼ÆÉÏÓ¦¸Ã±ÜÃâ´Ë¶Ë¿ÚÓëÄ£¿éÒÔÍâµÄ TCP/IP ¶Ë¿Ú³åÍ»¡£
+	 * Ð­ï¿½ï¿½Ê¹ï¿½Ã¶Ë¿Ú¡ï¿½
+	 * Ä£ï¿½ï¿½Í¨ï¿½ï¿½Ê¹ï¿½Ã´Ë¶Ë¿Ú½ï¿½ï¿½ï¿½ TCP/IP ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ã±ï¿½ï¿½ï¿½Ë¶Ë¿ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ TCP/IP ï¿½Ë¿Ú³ï¿½Í»ï¿½ï¿½
 	 */
 	N1Device.port = listen_port;
 	N1Device.user_ctx = NULL;
@@ -2419,9 +2420,9 @@ void n1_init(int listen_port)
 	N1Device.EventSet.onMakeIFrame = onMakeIFrame;
 
 	/**
-	 * ³õÊ¼»¯ N1 Éè±¸»·¾³¡£
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½ N1 ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
-	if (0 != NK_N1Device_Init("/usr/local/Anyka.lic", &N1Device)) {
+	if (0 != NK_N1Device_Init("/mnt/Anyka.lic", &N1Device)) {
 		ak_print_normal_ex("NK_N1Device_Init failed!\n");
 		//exit(EXIT_FAILURE);
 	} else {
@@ -2434,7 +2435,7 @@ void n1_init(int listen_port)
 	}
 
 	/**
-	 * À©Õ¹¹Ì¼þÉý¼¶ÊÂ¼þ¡£
+	 * ï¿½ï¿½Õ¹ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
 	 */
 	NK_N1DeviceEventUpgrade EvtUpgrade;
 	NK_BZERO(&EvtUpgrade, sizeof(EvtUpgrade));
@@ -2463,7 +2464,7 @@ void n1_init(int listen_port)
 	NK_N1Device_UserManage(&EvtUserManage);
 
 
-	/**	 *ÅäÖÃ N1 Éè±¸Éú²úÏà¹ØÊÂ¼þ¡£*/
+	/**	 *ï¿½ï¿½ï¿½ï¿½ N1 ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½*/
 	NK_N1DeviceEventProduction EvtProduction;
 	NK_BZERO(&EvtProduction, sizeof(EvtProduction));
 	EvtProduction.onReadUID = n1_onReadUID;
@@ -2476,7 +2477,7 @@ void n1_init(int listen_port)
 	NK_N1Device_Production(&EvtProduction);
 	/**
 	 * @brief
-	 *	ÅäÖÃº£¿µÍþÊÓÐ­ÒéÏà¹ØÊÂ¼þ¡£
+	 *	ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
 	 */
 	
 	do {
@@ -2489,7 +2490,7 @@ void n1_init(int listen_port)
 	
 	/**
 	 * @brief
-	 *	ÅäÖÃRTSPÏà¹ØÊÂ¼þ¡£
+	 *	ï¿½ï¿½ï¿½ï¿½RTSPï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
 	 */
 	
 	do {
