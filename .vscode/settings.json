@@ -1,0 +1,11 @@
+{
+  "terminal.integrated.env.osx": {
+    "ENV_FILE": "${workspaceFolder}/.env"
+  },
+  "terminal.integrated.env.linux": {
+    "ENV_FILE": "${workspaceFolder}/.env"
+  },
+  "terminal.integrated.env.windows": {
+    "ENV_FILE": "${workspaceFolder}/.env"
+  }
+}

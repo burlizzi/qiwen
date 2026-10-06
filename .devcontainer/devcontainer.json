@@ -7,5 +7,5 @@
 	},
 
 	"workspaceFolder": "${localWorkspaceFolder}",
-	"workspaceMount":  "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind,consistency=cached",
+	"workspaceMount":  "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind,consistency=cached"
 }
