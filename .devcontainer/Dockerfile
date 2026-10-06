@@ -1,20 +1,20 @@
-FROM ghcr.io/burlizzi/anyka_build
+FROM ubuntu
 
-#ARG USERNAME=vscode
-#ARG USER_UID=1000
-#ARG USER_GID=$USER_UID
+# Copy and preserve executable permissions
+ADD --chmod=755 ./arm-anykav200-crosstool/ /opt
 
-# Create the user
-#RUN groupadd --gid $USER_GID $USERNAME 
-#RUN useradd --uid $USER_UID --gid $USER_GID -m $USERNAME 
-    #
-    # [Optional] Add sudo support. Omit if you don't need to install software after connecting.
-#RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-#    && chmod 0440 /etc/sudoers.d/$USERNAME
-#RUN zypper install -y gzip iproute2
-# ********************************************************
-# * Anything else you want to do like clean up goes here *
-# ********************************************************
+# Install required build tools (without specific glibc dependencies)
+RUN dpkg --add-architecture i386 && \
+    apt update && \
+    apt install -y --no-install-recommends \
+    make \
+    libc6:i386 libstdc++6:i386 \
+    libmpc3 libmpfr6 libgmp10 zlib1g:i386 && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# [Optional] Set the default user. Omit if you want to keep the default as root.
-#USER $USERNAME
+# Set PATH and verify
+ENV PATH=$PATH:/opt/usr/bin/
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/usr/lib/
+RUN echo "PATH is set to $PATH"
+
